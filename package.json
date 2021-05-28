@@ -4,6 +4,7 @@
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "express": "^4.17.1",
+        "firebase-admin": "^9.9.0",
         "i": "^0.3.6",
         "jsonwebtoken": "^8.5.1",
         "node-fetch": "^2.6.1",
