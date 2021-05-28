@@ -1,0 +1,13 @@
+{
+    "name": "sample-http",
+    "version": "0.0.1",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "express": "^4.17.1",
+        "i": "^0.3.6",
+        "jsonwebtoken": "^8.5.1",
+        "node-fetch": "^2.6.1",
+        "npm": "^7.15.0",
+        "unique-names-generator": "^4.5.0"
+    }
+}
