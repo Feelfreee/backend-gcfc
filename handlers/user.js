@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const fetch = require("node-fetch")
 const configs = require("../.env.json")
 const admin = require("../config/firebase_config")
@@ -37,7 +35,9 @@ const admin = require("../config/firebase_config")
 
   }
 
+ const send_post = async(req,res) => {
 
+ }
   module.exports = {
    fct_login
       }
