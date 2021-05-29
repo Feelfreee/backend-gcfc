@@ -2,34 +2,6 @@ const fetch = require("node-fetch")
 const configs = require("../.env.json")
 const admin = require("../config/firebase_config")
 
-const execute = async (variables) => {
-
-  const HASURA_OPERATION = `
-mutation ($email: String!, $first_name: String!, $last_name: String!, $password: String!) {
-insert_users_one(object: {email: $email, first_name: $first_name, last_name: $last_name, password: $password}) {
-  id
-}
-}
-`;
-
-  const fetchResponse = await fetch(
-    "https://feelfree12.herokuapp.com/v1/graphql",
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        query: HASURA_OPERATION,
-        variables
-      }),
-      headers: { 'Content-Type': 'application/json',
-                 'x-hasura-admin-secret':'25a779ba-116e-47a2-9272-458f30af0449'
-  },
-    }
-  );
-  const data = await fetchResponse.json();
-  console.log('DEBUG: ', data);
-  return data;
-};
-
  const fct_login = async(req, res) => {
     // get request input
   const { uid,secret } = req.body;
@@ -402,6 +374,8 @@ fetch(
   
   }).catch(err=>{console.log(err)})
 }
+
+
 
 
   module.exports = {
