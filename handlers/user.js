@@ -76,6 +76,9 @@ insert_users_one(object: {email: $email, first_name: $first_name, last_name: $la
       posted_by
       random_name
       updated_at
+      posts_helpers {
+        helper_id
+      }
     }
   }
   
@@ -101,7 +104,10 @@ data.data.posts.forEach(j=>{
     id:j.id,
     created_at:j.created_at,
     picture:j.picture,
-    random_name:j.random_name
+    random_name:j.random_name,
+    helpers:{
+      "helper_id":j.posts_helpers
+    }
   })
 })
 const data1 = {posts};
