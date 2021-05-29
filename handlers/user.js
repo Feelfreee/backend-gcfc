@@ -138,8 +138,40 @@ mutation {
   }
 }
 `
+  const hasura_check_if_already_requested = `
+{
+  posts_helpers(where: {post_id: {_eq: "${post_id}"}, helper_id: {_eq: "${helper_id}"}}) {
+    created_at
+    helper_id
+  }
+}
+  `
   
-  console.log(HASURA_GET_POST);
+  const check_if_already_requested = await fetch(
+    "https://feelfree12.herokuapp.com/v1/graphql",
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        query: hasura_check_if_already_requested
+      }),
+      headers: { 'Content-Type': 'application/json',
+                 'x-hasura-admin-secret':'25a779ba-116e-47a2-9272-458f30af0449'
+  },
+    }
+  );
+
+    const data_come_back = await check_if_already_requested.json();
+   
+//   let data_come_back = await check_if_already_requested1.json().data;
+    //console.log(data_come_back.data.posts_helpers.length);
+   if(data_come_back.data.posts_helpers.length !== 0){
+   // console.log(85656)
+           return res.status(200).json({
+              message:`Help request already sent to user !`
+                 })
+   }
+   
+else{
    
   const fetchResponse = await fetch(
     "https://feelfree12.herokuapp.com/v1/graphql",
@@ -155,7 +187,7 @@ mutation {
   );
 
     const post_details = await fetchResponse.json();
-    console.log(post_details);
+    //console.log(post_details);
     const post_user_id = post_details.data.posts_by_pk.posted_by;
     
     if(post_user_id !== helper_id){
@@ -174,7 +206,7 @@ mutation {
       );
 
       const response = await insert_post_helper.json()
-      console.log(response);
+      //console.log(response);
       return res.status(200).json({
         message:`Request user for chat !`
       })
@@ -183,9 +215,12 @@ mutation {
       res.status(403).json({
         message:"You cannot help in your own post !"
       })
-    } 
+    }    
+   }
+  
 
  }
+
 
  const create_room = async (req,res) => {
 
