@@ -336,9 +336,78 @@ insert_room_candidates_one(object: {created_by: "${user_id}", post_id: "${post_i
 
 }
 
+const rate_user = async (req,res) => {
+
+  const { helper_id, rating } = req.body.input;
+
+  const hasura_get_user_id = `
+{
+ users(where: {uid: {_eq: "${helper_id}"}}) {
+   rating
+ }
+}
+`
+  
+ 
+fetch(
+   "https://feelfree12.herokuapp.com/v1/graphql",
+   {
+     method: 'POST',
+     body: JSON.stringify({
+       query: hasura_get_user_id
+     }),
+     headers: { 'Content-Type': 'application/json',
+                'x-hasura-admin-secret':'25a779ba-116e-47a2-9272-458f30af0449'
+ },
+   }
+ ).then(response => response.json())
+ .then(ratings => {
+    //console.log(rating.data.users[0].rating);
+  let prev_user_rating  = ratings.data.users[0].rating;
+  console.log(prev_user_rating)
+  
+  let avg_rating = ((prev_user_rating + parseFloat(rating))/2).toFixed(2)
+  
+  //console.log(avg_rating,rating);
+  
+     const modify_user_rating = `
+  mutation {
+ update_users_by_pk(pk_columns: {uid: "${helper_id}"}, _set: {rating: "${avg_rating}"}) {
+   rating
+ }
+}
+  `
+      fetch(
+   "https://feelfree12.herokuapp.com/v1/graphql",
+   {
+     method: 'POST',
+     body: JSON.stringify({
+       query: modify_user_rating
+     }),
+     headers: { 'Content-Type': 'application/json',
+                'x-hasura-admin-secret':'25a779ba-116e-47a2-9272-458f30af0449'
+ },
+   }
+ ).then(response => response.json())
+ .then(response => {
+        //console.log(response)
+   return res.status(200).json({
+     message:"User rated successfully !"
+   })
+        
+      })
+  .catch(err =>{
+        console.log(err);
+      })
+  
+  }).catch(err=>{console.log(err)})
+}
+
+
   module.exports = {
    fct_login,
    get_post,
    help_in_post,
-   create_room
+   create_room,
+   rate_user
       }
