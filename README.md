@@ -8,7 +8,7 @@ support.
 Give and receive support for problems in life including relationship problems, anxiety, depression, stress, tension and 
 many more.
 
-FeelFree is a platform for adults of 18+ age.
+FeelFree is a platform for adults of 13+ age.
 
 ## Why to use FeelFreee?
 We believe that no one should be left alone in his difficult phase of life. Everyone faces emotional issues from time to
